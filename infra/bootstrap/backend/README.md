@@ -35,3 +35,11 @@ You can `unset TF_DATA_DIR TF_PLUGIN_CACHE_DIR` afterward.
 Costs (roughly):
 - S3: pennies/month for small state files
 - DynamoDB on-demand: near-zero unless locking frequently
+
+
+If your home directory volume is full (often shows as `/dev/loop0` at 100%), the most reliable fix is to run from a larger mount (CloudShell usually has ~25GB at `/aws/mde/mde`):
+
+- `cd /aws/mde/mde`
+- `cp -a ~/terraform-sandbox .`  (or re-clone with `git clone ...`)
+- `rm -rf ~/terraform-sandbox`  (frees the small home volume)
+- `cd /aws/mde/mde/terraform-sandbox`
