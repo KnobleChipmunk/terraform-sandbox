@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: terraform-fmt
+        name: terraform fmt (infra)
+        entry: terraform fmt -recursive infra
+        language: system
+        pass_filenames: false
+
+      - id: terraform-validate-sandbox
+        name: terraform validate (infra/env/sandbox, backend disabled)
+        entry: sh -c "terraform -chdir=infra/env/sandbox init -backend=false && terraform -chdir=infra/env/sandbox validate"
+        language: system
+        pass_filenames: false
