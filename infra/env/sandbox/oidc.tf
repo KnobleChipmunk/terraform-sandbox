@@ -179,6 +179,7 @@ resource "aws_iam_policy" "github_actions_terraform" {
           "iam:DetachRolePolicy",
           "iam:GetRole",
           "iam:ListAttachedRolePolicies",
+          "iam:ListRolePolicies",
           "iam:UpdateAssumeRolePolicy"
         ]
         Resource = [
