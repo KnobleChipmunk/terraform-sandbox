@@ -1,0 +1,9 @@
+# Copy to backend.hcl (ignored by git) and fill in values from:
+#   terraform -chdir=infra/bootstrap/backend output -raw state_bucket_name
+#   terraform -chdir=infra/bootstrap/backend output -raw lock_table_name
+
+bucket         = "<STATE_BUCKET_NAME>"
+key            = "sandbox/terraform.tfstate"
+region         = "us-east-2"
+dynamodb_table = "<LOCK_TABLE_NAME>"
+encrypt        = true

@@ -15,7 +15,7 @@ Beginner-friendly AWS Terraform sandbox for learning infrastructure-as-code with
 ## Day 0 → Day 2
 - Day 0: `make bootstrap`, `make verify`
 - Day 1: `make tf-fmt`, `make tf-validate`, `make tf-plan`
-- Day 2: add budgets/alerts, then expand infra (OIDC apply later)
+- Day 2: add budgets/alerts + remote state, then expand infra (OIDC apply later)
 
 ## What’s in this repo
 - A sandbox Terraform environment root at `infra/env/sandbox/`

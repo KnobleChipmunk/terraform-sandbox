@@ -12,5 +12,8 @@ From the repo root:
 - Validate: `make tf-validate`
 
 Notes:
-- The sandbox environment uses a local backend by default.
+- The sandbox environment uses local state unless you configure remote state (recommended).
 - CI runs `terraform init -backend=false` + `terraform validate`.
+
+## Remote state
+See `agent-output/REMOTE_STATE.md` and the bootstrap root under `infra/bootstrap/backend/`.

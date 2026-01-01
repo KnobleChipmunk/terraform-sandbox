@@ -40,3 +40,7 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
+
+# Terraform backend config (environment-specific; do not commit)
+backend.hcl
+*.backend.hcl

@@ -41,7 +41,18 @@ fi
 
 # Terraform checks (optional)
 if command -v terraform >/dev/null 2>&1; then
-  terraform fmt -check -recursive infra || fail=1
+  # Only check formatting for tracked Terraform files.
+  # This avoids local ignored files (like *.auto.tfvars) breaking `make verify`.
+  if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    tracked_tf_files=$(git ls-files infra | grep -E '\.(tf|tfvars|tf\.json|tfvars\.json)$' || true)
+    if [ -n "$tracked_tf_files" ]; then
+      terraform fmt -check $tracked_tf_files || fail=1
+    else
+      terraform fmt -check -recursive infra || fail=1
+    fi
+  else
+    terraform fmt -check -recursive infra || fail=1
+  fi
   (cd infra/env/sandbox && terraform init -backend=false) || fail=1
   (cd infra/env/sandbox && terraform validate) || fail=1
 fi

@@ -36,3 +36,25 @@ py-lint:
 
 py-test:
 	@PYTHONPATH=src python -m pytest
+
+.PHONY: tf-backend-init tf-backend-plan tf-backend-apply tf-init-remote tf-plan-remote
+
+tf-backend-init:
+	@terraform -chdir=infra/bootstrap/backend init
+
+tf-backend-plan:
+	@terraform -chdir=infra/bootstrap/backend init
+	@terraform -chdir=infra/bootstrap/backend plan
+
+tf-backend-apply:
+	@terraform -chdir=infra/bootstrap/backend init
+	@terraform -chdir=infra/bootstrap/backend apply
+
+# Requires infra/env/sandbox/backend.hcl (ignored by git)
+
+tf-init-remote:
+	@terraform -chdir=infra/env/sandbox init -backend-config=backend.hcl
+
+tf-plan-remote:
+	@terraform -chdir=infra/env/sandbox init -backend-config=backend.hcl
+	@terraform -chdir=infra/env/sandbox plan
