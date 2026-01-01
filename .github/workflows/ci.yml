@@ -24,17 +24,5 @@ jobs:
         with:
           terraform_version: "1.6.6"
 
-      - name: Terraform fmt
-        run: terraform fmt -check -recursive infra
-
-      - name: Terraform validate
-        run: cd infra/env/sandbox && terraform init -backend=false && terraform validate
-
-      - name: Python lint
-        run: python -m ruff check .
-
-      - name: Python tests
-        run: PYTHONPATH=src python -m pytest
-
       - name: Verify
-        run: sh scripts/verify.sh
+        run: make verify
