@@ -8,6 +8,21 @@ Why this exists:
 
 ## Safe workflow (recommended)
 
+## CloudShell disk space note
+AWS CloudShell has limited home directory space, and the AWS provider binary is large.
+If `terraform init` fails with `no space left on device`, try:
+
+- Remove Terraform working dirs (safe):
+  - `rm -rf infra/**/.terraform`
+
+- Use `/tmp` for Terraform’s working dir + provider cache:
+  - `export TF_DATA_DIR=/tmp/tf-data`
+  - `export TF_PLUGIN_CACHE_DIR=/tmp/tf-plugin-cache`
+  - Re-run `terraform init` / `plan`
+
+You can `unset TF_DATA_DIR TF_PLUGIN_CACHE_DIR` afterward.
+
+
 1) Plan:
 - `terraform -chdir=infra/bootstrap/backend init`
 - `terraform -chdir=infra/bootstrap/backend plan`
