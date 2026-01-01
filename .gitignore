@@ -29,3 +29,14 @@ crash.log
 # Misc
 .env
 .env.*
+
+# Terraform variable files (often contain environment-specific settings like emails)
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+

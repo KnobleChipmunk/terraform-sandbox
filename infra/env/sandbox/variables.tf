@@ -27,3 +27,39 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "enable_budgets" {
+  description = "Whether to manage AWS Budgets via Terraform. Default false to avoid surprising account-level changes."
+  type        = bool
+  default     = false
+}
+
+variable "monthly_budget_soft_limit_usd" {
+  description = "Monthly cost budget soft limit in USD."
+  type        = number
+  default     = 25
+}
+
+variable "monthly_budget_hard_limit_usd" {
+  description = "Monthly cost budget hard limit in USD."
+  type        = number
+  default     = 50
+}
+
+variable "enable_budget_notifications" {
+  description = "Whether budgets should send email notifications."
+  type        = bool
+  default     = false
+}
+
+variable "budget_notification_emails" {
+  description = "Email addresses to notify for budget thresholds. Supply via ignored tfvars or TF_VAR_ env var."
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition     = (!var.enable_budget_notifications) || length(var.budget_notification_emails) > 0
+    error_message = "When enable_budget_notifications is true, budget_notification_emails must be non-empty."
+  }
+}
+
