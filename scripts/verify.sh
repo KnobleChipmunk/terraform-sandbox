@@ -46,6 +46,7 @@ if command -v terraform >/dev/null 2>&1; then
   if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     tracked_tf_files=$(git ls-files infra | grep -E '\.(tf|tfvars|tf\.json|tfvars\.json)$' || true)
     if [ -n "$tracked_tf_files" ]; then
+      # shellcheck disable=SC2086
       terraform fmt -check $tracked_tf_files || fail=1
     else
       terraform fmt -check -recursive infra || fail=1
