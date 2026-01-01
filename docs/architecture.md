@@ -10,3 +10,6 @@ _TBD: add high-level diagrams and boundaries once the first component is chosen.
 
 ## Key decisions
 See `docs/decisions/`.
+
+Notable decisions captured as ADRs:
+- GitHub Actions OIDC for manual Terraform apply (no long-lived AWS keys)
