@@ -14,6 +14,12 @@ locals {
   tflock_table_name   = "${var.backend_name_prefix}-tflock-${data.aws_caller_identity.current.account_id}"
 }
 
+locals {
+  github_actions_oidc_provider_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
+  github_actions_role_arn          = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.github_actions_role_name}"
+  github_actions_policy_arn        = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/${var.github_actions_role_name}-policy"
+}
+
 resource "aws_iam_openid_connect_provider" "github_actions" {
   count = var.enable_github_actions_oidc ? 1 : 0
 
@@ -107,6 +113,7 @@ resource "aws_iam_policy" "github_actions_terraform" {
           "logs:CreateLogGroup",
           "logs:DeleteLogGroup",
           "logs:DescribeLogGroups",
+          "logs:ListTagsForResource",
           "logs:PutRetentionPolicy",
           "logs:TagResource",
           "logs:UntagResource"
@@ -122,6 +129,7 @@ resource "aws_iam_policy" "github_actions_terraform" {
           "budgets:CreateBudget",
           "budgets:DeleteBudget",
           "budgets:Describe*",
+          "budgets:ListTagsForResource",
           "budgets:ModifyBudget",
           "budgets:UpdateBudget",
           "budgets:ViewBudget",
@@ -133,6 +141,59 @@ resource "aws_iam_policy" "github_actions_terraform" {
           "budgets:UpdateSubscriber"
         ]
         Resource = "*"
+      },
+
+      # IAM permissions required for Terraform to read/update the OIDC provider,
+      # role, and policy that enable GitHub Actions.
+      {
+        Sid    = "IamReadForTerraform"
+        Effect = "Allow"
+        Action = [
+          "iam:GetOpenIDConnectProvider",
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion",
+          "iam:ListPolicyVersions"
+        ]
+        Resource = [
+          local.github_actions_oidc_provider_arn,
+          local.github_actions_policy_arn
+        ]
+      },
+      {
+        Sid    = "IamPolicyVersionManagement"
+        Effect = "Allow"
+        Action = [
+          "iam:CreatePolicyVersion",
+          "iam:DeletePolicyVersion",
+          "iam:SetDefaultPolicyVersion"
+        ]
+        Resource = [
+          local.github_actions_policy_arn
+        ]
+      },
+      {
+        Sid    = "IamRoleReadWrite"
+        Effect = "Allow"
+        Action = [
+          "iam:AttachRolePolicy",
+          "iam:DetachRolePolicy",
+          "iam:GetRole",
+          "iam:ListAttachedRolePolicies",
+          "iam:UpdateAssumeRolePolicy"
+        ]
+        Resource = [
+          local.github_actions_role_arn
+        ]
+      },
+      {
+        Sid    = "IamOidcProviderWrite"
+        Effect = "Allow"
+        Action = [
+          "iam:UpdateOpenIDConnectProviderThumbprint"
+        ]
+        Resource = [
+          local.github_actions_oidc_provider_arn
+        ]
       }
     ]
   })
