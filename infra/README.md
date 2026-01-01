@@ -16,4 +16,4 @@ Notes:
 - CI runs `terraform init -backend=false` + `terraform validate`.
 
 ## Remote state
-See `agent-output/REMOTE_STATE.md` and the bootstrap root under `infra/bootstrap/backend/`.
+See the bootstrap root under `infra/bootstrap/backend/`.

@@ -8,8 +8,6 @@ Beginner-friendly AWS Terraform sandbox for learning infrastructure-as-code with
 - No long-lived secrets (prefer SSO / short-lived credentials)
 
 ## Start here
-- Runbook: [agent-output/README_RUNBOOK.md](agent-output/README_RUNBOOK.md)
-- Cost guardrails: [agent-output/COST_GUARDRAILS.md](agent-output/COST_GUARDRAILS.md)
 - Terraform layout: [infra/README.md](infra/README.md)
 
 ## Day 0 → Day 2

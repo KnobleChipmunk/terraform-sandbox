@@ -44,3 +44,6 @@ override.tf.json
 # Terraform backend config (environment-specific; do not commit)
 backend.hcl
 *.backend.hcl
+
+# Local-only agent scratchpad (not committed)
+agent-output/
