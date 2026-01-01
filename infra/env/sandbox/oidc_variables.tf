@@ -16,6 +16,12 @@ variable "github_ref" {
   default     = "refs/heads/main"
 }
 
+variable "github_environment" {
+  description = "GitHub Actions Environment name allowed to assume the role (e.g., sandbox). If set, jobs that declare environment:<name> can assume the role."
+  type        = string
+  default     = "sandbox"
+}
+
 variable "github_actions_role_name" {
   description = "IAM role name to be assumed by GitHub Actions via OIDC."
   type        = string
