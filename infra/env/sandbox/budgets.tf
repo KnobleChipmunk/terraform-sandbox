@@ -4,6 +4,7 @@
 # To avoid committing emails in a public repo, set:
 #   enable_budget_notifications = true
 #   budget_notification_emails  = ["<YOUR_EMAIL>"]
+# Notifications are only created when enable_budget_notifications is true AND at least one email is provided.
 # in an ignored tfvars file (see README_RUNBOOK).
 
 resource "aws_budgets_budget" "monthly_soft" {
@@ -23,7 +24,7 @@ resource "aws_budgets_budget" "monthly_soft" {
   }
 
   dynamic "notification" {
-    for_each = var.enable_budget_notifications ? [
+    for_each = (var.enable_budget_notifications && length(var.budget_notification_emails) > 0) ? [
       {
         comparison_operator = "GREATER_THAN"
         threshold           = 50
@@ -70,7 +71,7 @@ resource "aws_budgets_budget" "monthly_hard" {
   }
 
   dynamic "notification" {
-    for_each = var.enable_budget_notifications ? [
+    for_each = (var.enable_budget_notifications && length(var.budget_notification_emails) > 0) ? [
       {
         comparison_operator = "GREATER_THAN"
         threshold           = 80

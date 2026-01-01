@@ -53,13 +53,10 @@ variable "enable_budget_notifications" {
 }
 
 variable "budget_notification_emails" {
-  description = "Email addresses to notify for budget thresholds. Supply via ignored tfvars or TF_VAR_ env var."
+  description = "Email addresses to notify for budget thresholds. Supply via ignored tfvars or TF_VAR_ env var. If empty, notifications are skipped."
   type        = list(string)
   default     = []
 
-  validation {
-    condition     = (!var.enable_budget_notifications) || length(var.budget_notification_emails) > 0
-    error_message = "When enable_budget_notifications is true, budget_notification_emails must be non-empty."
-  }
+
 }
 
